@@ -27,6 +27,12 @@ export const queue = {
             }else{
                 commit( 'setActiveJob', {} );
             }
+        },
+        clearPendingJobs({ commit }){
+            commit( 'setPendingJobs', [] );
+        },
+        cancelJob({ commit }, index ){
+            commit( 'removeJob', index );
         }
     },
 
@@ -45,6 +51,12 @@ export const queue = {
 
         addCompletedJob( state, job ){
             state.completed.push( job );
+        },
+        setPendingJobs( state, jobs ){
+            state.pending = jobs;
+        },
+        removeJob( state, index ){
+            state.pending.splice( index, 1 );
         }
     },
 
