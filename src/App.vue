@@ -8,7 +8,6 @@
 	</div>
 </template>
 </template>
-
 <script setup>
 import { mapState } from 'vuex';
 

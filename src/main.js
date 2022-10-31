@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 import App from './App.vue'
 
 import './assets/main.css'
-import {queue} from "./modules/queue.js"
+import {queue} from "../modules/queue.js"
 
 
 const store = createStore({
