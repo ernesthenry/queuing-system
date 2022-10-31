@@ -2,13 +2,16 @@
 <template>
   <template>
 	<div>
-		<div v-for="( job, index ) in pending v-bind:key="'pending-'+index">
+		<div v-for="( job, index ) in pending ">
 	           {{ job }}
                </div>
 	</div>
 </template>
 </template>
-<script setup>
+
+
+
+<script >
 import { mapState } from 'vuex';
 
 export default {
