@@ -1,21 +1,42 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <template>
+	<div>
+		<div v-for="( job, index ) in pending v-bind:key="'pending-'+index">
+	           {{ job }}
+               </div>
+	</div>
 </template>
+</template>
+
+<script setup>
+import { mapState } from 'vuex';
+
+export default {
+    computed: {
+        ...mapState('queue', {
+            pending: 'pending',
+            active: 'active',
+            completed: 'completed'
+        })
+    },
+
+    watch: {
+        active(){
+            this.processJob();
+        }
+    },
+
+    methods: {
+        processJob(){
+            if( this.active.handler ){
+                this.active.handler();
+            }
+        }
+    }
+}
+</script>
+
 
 <style scoped>
 header {
