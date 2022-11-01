@@ -1,70 +1,67 @@
-
 <template>
-  <template>
-	<div>
-		<div v-for="( job, index ) in pending ">
-	           {{ job }}
-               </div>
-	</div>
+  <img alt="Vue logo" src="./assets/logo.png">
+
+  <br>
+
+  <button @click="populateQueue()">Populate Queue</button>
+
+  <br>
+
+  <button @click="clearPendingJobs()">Clear Pending Jobs</button>
+
+  <br>
+
+  <button @click="clearCompletedJobs()">Clear Completed Jobs</button>
+
+  <queue-controller/>
+
 </template>
-</template>
 
+<script>
 
-
-<script >
-import { mapState } from 'vuex';
+import QueueController from './components/QueueController.vue';
 
 export default {
-    computed: {
-        ...mapState('queue', {
-            pending: 'pending',
-            active: 'active',
-            completed: 'completed'
-        })
+  name: 'App',
+  components: {
+    QueueController
+  },
+
+  methods: {
+    populateQueue(){
+      for( let i = 0; i < 50; i++ ){
+        this.$store.dispatch('queue/addJob', {
+          id: i,
+          handler: function( ){
+            // If you run this, just to slow down so the jobs just don't
+            // complete instantly.
+            setTimeout(function(){
+              // Your functionality here.
+              this.$store.dispatch('queue/startNextJob');
+            }.bind(this), 3000);
+          }.bind(this)
+        });
+      }
     },
 
-    watch: {
-        active(){
-            this.processJob();
-        }
+    clearPendingJobs(){
+      this.$store.dispatch('queue/clearPendingJobs');
     },
 
-    methods: {
-        processJob(){
-            if( this.active.handler ){
-                this.active.handler();
-            }
-        }
+    clearCompletedJobs(){
+      this.$store.dispatch('queue/clearCompletedJobs');
     }
+  }
 }
 </script>
 
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
